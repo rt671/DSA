@@ -13,5 +13,7 @@ void findans()
   }
 }
 ```
-3 way partitioning of an array around a range
-Duplicates in a string
+3 way partitioning of an array around a range  
+Duplicates in a string  
+Move all negative elements to the left
+
