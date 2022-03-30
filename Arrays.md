@@ -1,6 +1,6 @@
 # Arrays
 
-## PARTITION PROCESSS OF QUICKSORT
+## PARTITION PROCESS OF QUICKSORT
 - Sort an array of 0’s, 1’s and 2’s   (CODE BELOW)
 - 3 way partitioning of an array around a range (less than, between, greater than) (Order not important)
 - Remove duplicates from sorted array
