@@ -68,3 +68,46 @@ void leftone(Node* root, vector<int>& ans)
         return ans;
     }
 ```
+- **Print path from root to node**  
+```bool findans(TreeNode* root, int target, vector<int>& path)
+    {
+        if(root==NULL) return false;
+        path.push_back(root->val);
+        if(root->val == target) return true;
+        if(findans(root->left, target, path) || findans(root->right, target, path)) return true;
+        path.pop_back();
+        return res;
+    }```
+**Print all paths from root to leaves:** 
+Here no returning of true or false needed, because backtracking can be applied here. In the last case, as we found the node, we just had to return back totally.
+ ```void findans(TreeNode* root, string ans, vector<string>& finalans)
+    {
+        if(root==NULL) return;
+        ans+= to_string(root->val);
+        if(root->left==NULL && root->right==NULL) {finalans.push_back(ans); return;}
+        findans(root->left, ans+"->", finalans); findans(root->right, ans+"->", finalans);
+        ans.pop_back();
+    }```
+- **Longest Common Ancestor:**
+Return the node if found, else return Null; When a non Null value is returned from both sides, return the node value then. 
+>My way
+ ```bool findans(TreeNode* root, TreeNode* p, TreeNode* q, TreeNode** ans)
+    {
+        if(root==NULL) return false;
+        bool a = findans(root->left, p, q, ans);
+        bool b = findans(root->right, p, q, ans);
+        if(a&&b || ((a||b) &&(root==p||root==q))) {*ans = root; return true;}
+        if(root==p || root==q) return true;
+        else return (a||b);
+    }```
+
+> Another good way
+```TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root==NULL) return NULL;
+        if(root==p || root==q) return root;
+        TreeNode* a = lowestCommonAncestor(root->left, p, q);
+        TreeNode* b = lowestCommonAncestor(root->right, p, q);
+        if(a==NULL) return b;
+        else if(b==NULL) return a;
+        else return root;
+    }```
