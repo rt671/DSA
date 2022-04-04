@@ -1,6 +1,6 @@
 # Trees
 
-### Traversals (Iterative)
+### Iterative Traversals
 - **Preorder:** Just use a stack instead of queue and same as a bfs  
 - **Inorder:**  
 - **Postorder:**
@@ -80,7 +80,7 @@ bool findans(TreeNode* root, int target, vector<int>& path)
         return res;
     }
 ```
-**Print all paths from root to leaves:** 
+- **Print all paths from root to leaves:**   
 Here no returning of true or false needed, because backtracking can be applied here. In the last case, as we found the node, we just had to return back totally.
  ```
  void findans(TreeNode* root, string ans, vector<string>& finalans)
@@ -92,7 +92,7 @@ Here no returning of true or false needed, because backtracking can be applied h
         ans.pop_back();
     }
 ```
-- **Longest Common Ancestor:**
+- **Longest Common Ancestor:**  
 Return the node if found, else return Null; When a non Null value is returned from both sides, return the node value then. 
 >My way
  ```
