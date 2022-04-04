@@ -119,3 +119,25 @@ TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         else return root;
     }
 ```
+
+# Binary Search Trees
+
+- **Search in a BST**  
+In BT, do any traversal (pre/in/post/level): O(n)  
+In BST, it's O(logn);
+
+- **Ceil in a BST** (Similarly floor)  
+In Binary Search, there were two ways: 1. return low    2. whenever moving left, store mid as potential ceil  
+The first method can't work here (it will be null), second method works perfectly.  
+
+- **Insert into BST**  
+Recursive way seems better, as in iterative we have to keep track of the previous element to which we can assign the new element as a child. In recursive, root->left = findans(root->left, target); helps.  
+```
+TreeNode* insertIntoBST(TreeNode* root, int val) {
+        if(!root) return new TreeNode(val);
+        if(root->val > val) root->left = insertIntoBST(root->left, val);
+        else root->right = insertIntoBST(root->right, val);
+        return root;
+    }
+```
+- **Delete from BST**  
