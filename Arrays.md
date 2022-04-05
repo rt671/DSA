@@ -22,3 +22,18 @@ void findans()
 - Move all negative elements to the left (Order is Important)
 
 ## 2SUM, 3SUM, 4SUM
+
+- **Container with most water**  
+Two pointer approach: i=0, j=n-1;  
+calculate the area, max it and move the pointer which has smaller height.  
+Why this works?  
+-> The next to greater can be:
+                        -> larger (but no benefit, as the other side is the same) 
+                        -> equal (no benefit, width decreased)  
+                        -> smaller (oof, no benefit)  
+-> The next to smaller can be:
+                        -> larger (that's good, chance of improvement)  
+                        -> smaller (no benefit, previous one would be better)  
+                        -> equal (oof, no benefit)
+
+

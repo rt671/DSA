@@ -140,4 +140,85 @@ TreeNode* insertIntoBST(TreeNode* root, int val) {
         return root;
     }
 ```
-- **Delete from BST**  
+- **Delete from BST**    
+Replace with inorder successor (or predecessor) and delete that element (recursively)  
+```
+TreeNode* inordersucc(TreeNode* root)
+    {
+        root = root->right;
+        while(root->left)
+            root=root->left;
+        return root;
+    }
+    
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        
+        if(root==NULL) return root;
+        if(root->val == key)
+        {
+            if(root->left==NULL) return root->right;
+            if(root->right==NULL) return root->left;
+            
+            TreeNode* temp = inordersucc(root);
+            root->val = temp->val;
+            root->right = deleteNode(root->right, temp->val);
+            return root;
+        }
+        else if(root->val > key) root->left = deleteNode(root->left, key);
+        else root->right = deleteNode(root->right, key);
+        return root;
+    }
+``` 
+- **Kth smallest element in a BST**  
+The inorder traversal gives the sorted order, store the inorder in an array and return arr[k-1]; Or stop the inorder traversal at reaching kth node. This can done both in recursion or iteration. In iteration it is easier.  
+```
+while (true) {
+      while (root != null) {
+        stack.push(root);
+        root = root.left;
+      }
+      root = stack.pop();
+      if (--k == 0) return root.val;
+      root = root.right;
+    }
+  }
+```
+> Time Complexity: O(h+k); (h to reach down the leaf first (root->left))  
+> Space Complexity: O(h)
+
+- **Validate a BST** (Check if a BT is a BST)  
+I applied recursion. (1. if null or leaf, return true;  2. if any child false, return false;    3. compare current node value with inorder successor and predecessor)
+
+Better way, check if inorder is sorted (if next element is greater than previous, for every node traversed)
+```
+ bool isValidBST(TreeNode* root) {
+        TreeNode* prev = NULL;
+        stack<TreeNode*> st;
+        while(root || !st.empty())
+        {
+            while(root)
+            {
+                st.push(root);
+                root=root->left;
+            }
+            root = st.top();
+            st.pop();
+            if(prev && root->val <= prev->val) return false;
+            prev=root;
+            root = root->right;
+        }
+        return true;
+    }
+```
+
+- **LCA in BST**   
+Simply use BST property
+```
+ TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root->val > p->val && root->val > q->val) return lowestCommonAncestor(root->left, p, q);
+        if(root->val < p->val && root->val < q->val) return lowestCommonAncestor(root->right, p, q);
+        return root;
+    }
+```
+
+- **Construct BST from preorder traversal**  
