@@ -29,3 +29,19 @@ t[i] = min(t[i-1], t[i-2]) + cost[i];
 return min(t[n-1], t[n-2]);
 ```
 
+- **Maximum sum of subsequence with non adjacent elements**  
+```
+Subseq()
+{
+    if(n==1) return arr[0];
+    if(n<1) return 0;
+    pick = arr[n-1] + Subseq(n-2);
+    noPick = 0 + Subseq(n-1);
+    return max(pick,noPick);
+}
+```
+
+- **House Robber 2: Circular arrangement**  (Find maximum money such that non adjacent)  
+Find the max money removing the first element, then removing the last element, and the max of both.  
+
+
