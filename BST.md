@@ -1,5 +1,6 @@
 # Binary Search Trees  
 The most efficient solution for any BST question can be considered as an O(h) solution.  
+Many questions of BST can be solved with the property that inorder is a sorted sequence.  
   
 - **Search in a BST**  
 In BT, do any traversal (pre/in/post/level): O(n)  
@@ -149,7 +150,24 @@ Approach 2: Do iterative inorder traversal, just move it's different segments in
         return (root || !st.empty());
     }
 ```
-- **Two sum in BST**  
+- **Trim BST**  
+Trim BST so that all its elements lies in [low, high]  
+```
+TreeNode* deleteit(TreeNode* root, int low, int high)
+    {
+        if(root==NULL) return NULL;
+        if(root->val < low) {root = deleteit(root->right, low, high);}
+        else if(root->val > high) {root = deleteit(root->left, low, high);}
+        else
+        {
+            root-> left = deleteit(root->left, low, high);
+            root-> right = deleteit(root->right, low, high);
+        }
+        return root;
+    }
+```
+- **Two sum in BST**    
+
 - **Recover BST**  
-- **Largest BST in BT**  
+- **Largest BST in BT**   
 

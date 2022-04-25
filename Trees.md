@@ -98,6 +98,7 @@ Here no returning of true or false needed, because backtracking can be applied h
         ans.pop_back();
     }
 ```
+
 - **Longest Common Ancestor:**  
 Return the node if found, else return Null; When a non Null value is returned from both sides, return the node value then. 
 >My way

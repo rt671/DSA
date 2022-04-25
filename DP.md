@@ -1,4 +1,10 @@
 # Dynamic Programming
+Time complexity of dp: all paramaters multiplied  (Example: m*n in case of Grid dp, moving right and down)  
+Time complexity of recursion: (options)^(all parameters multiplied)  (Example: 2^(m*n) in case of Grid dp, moving right and down)
+
+Recursion (exponential, (linear) stack space) -> Memoization (polynomial, (linear) stack space + dp storage) ->  Tabulation (polyonomial, dp storage only) -> space optimized tabulation (polynomial, constant space)  
+
+Why Greedy cannot be applied? There is no uniformity along the steps.  
 
 - **Climbing Stairs**  
 Number of steps required to reach the nth stair from the 0th => Number of stairs required to reach the n-1th stair + ...  
@@ -44,4 +50,7 @@ Subseq()
 - **House Robber 2: Circular arrangement**  (Find maximum money such that non adjacent)  
 Find the max money removing the first element, then removing the last element, and the max of both.  
 
+- **[Ninja's Training](https://www.codingninjas.com/codestudio/problems/ninja-s-training_3621003?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=1)**  
+In this case, we need to keep in account the activity done on the last day, hence two parameters in recursion. While in the non adjacent case, skipping or not skipping was implicit, just because there were only two options. We could have made a 2D matrix for both the options there also, but rather we used the last value for skipping and last to last value for not skipping.  
 
+- **[Stone Game](https://leetcode.com/problems/stone-game/)**  
