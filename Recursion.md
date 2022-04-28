@@ -1,5 +1,6 @@
-#RECURSION   
-- Every recursion has an iterative version. Think of finding all subsequences of a string, traverse the array, maintaning a list, and adding on to the list according to the take/not take choices.   (bottom up approach can be applied to any recursion (i.e. table toh bana hi sakte hai), however, if that table is being of any profit (if there are actually any overlapping subproblems), that is a different thing)   
+# RECURSION   
+- Every recursion has an iterative version. Think of finding all subsequences of a string, traverse the array, maintaning a list, and adding on to the list according to the take/not take choices.   (bottom up approach can be applied to any recursion (i.e. table toh bana hi sakte hai), however, if that table is being of any profit (if there are actually any overlapping subproblems), that is a different thing)  
+
 Still choices are associated with recursion. Why?   
 - The main property of recursion is that it creates separate solution spaces for different calls. Can consider them running independently.   
   This property primarily helps in cases when there are choices. One separate solution/program running for each choice.It's easy to think in terms of recursion because for each choice we call the function as an independent computation happening.   
@@ -16,9 +17,9 @@ Hence, there are two use Recursion can be solved in two ways:
 1. Using recurrence relations (the current depends on previous; current obtains previous' value and operates on it) (For this, mostly iterations are preferred directly)  
 2. When there are choices.(Recursion is always the first thought in these cases. Howcver, in case of overlapping subproblems, optimizations of memoization or bottom up approach (iteration) is definitely needed)   
 
-###In short, use Recursion if there are choices. And further, if there are overlapping subproblems do dynamic programming.   
+### In short, use Recursion if there are choices. And further, if there are overlapping subproblems do dynamic programming.   
 
--**Find all the subsequences of an array**   
+- **Find all the subsequences of an array**   
 We have choices: take or not take -> recursion   
 ```
 void subseq(vector<int>& arr, int idx, vector<int> ans)
@@ -43,7 +44,9 @@ void subseq(vector<int>& arr, int idx, vector<int> ans, int ansSum, int givenSum
 }
 ```
 
-- **Find any one subsequence with sum k**   (Whenever required 'any one', use this true-false way)   
+- **Find any one subsequence with sum k**   
+Same as above with little modification.   
+> Whenever required 'any one', use this true-false way  
 ```
 bool subseq(vector<int>& arr, int idx, vector<int> ans, int ansSum, int givenSum)
 {
@@ -57,3 +60,20 @@ bool subseq(vector<int>& arr, int idx, vector<int> ans, int ansSum, int givenSum
 ```
 
 - **Count of all subsequences with sum k**   
+Same as above, just replace the boolean true and false with integer 1 and 0.
+In general:
+```
+int findans()
+{
+    if(base case) {
+        if(condition satisfied) return 1;
+        else return 0;
+    }
+    
+    option1 = findans();
+    option2 = findans();
+    ...
+    int ans = option1+option2+...;
+    return ans;
+}
+```
