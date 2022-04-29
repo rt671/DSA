@@ -84,9 +84,10 @@ Given an array of 'distinct' integers candidates and a target integer target, re
 
 There are two approaches:   
 1. Like unbounded knapsack, traverse index-wise and options are take or not take   
-2. Options are all indices, then next time options are all indices after the previous selected index. (If permutations asked, all indices would have the options every time. Here not so as to avoid repetition (A and then B or B and then A should be the same))   
+2. Options are all indices, then next time options are all indices after the previous selected index. (If permutations asked, all indices would have the options every time. Here not so as to avoid repetition (A and then B or B and then A should be the same))
+
+>WAY1 (Take/Not Take)
 ``` 
-//WAY1 (Take/Not Take)
 void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<vector<int>>& ans)
     {
         if(idx>=arr.size() || target<=0) {if(target==0) ans.push_back(output); return; }
@@ -101,8 +102,8 @@ void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<v
         findans(arr, target, idx+1, output, ans);
     }
 ```
+>WAY2 (Which index to take?)
 ```
-//WAY2 (Which index to take?)
 void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<vector<int>>& ans)
     {
         if(idx>=arr.size() || target==0) { if(target==0) ans.push_back(output); return;}
@@ -130,8 +131,8 @@ Sort the array. If you select the element, you can go to next element easily. If
 
 WAY2 of combination sum:   
 Same logic + one more logic, while choosing which index to take, consider only the starting elements of each group of same elements.
+>WAY 1
 ```
-//WAY 1
 void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<vector<int>>& ans)
     {
         if(idx>=arr.size() || target<=0) {if(target==0) ans.push_back(output); return;}
@@ -150,8 +151,9 @@ void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<v
         findans(arr, target, idx+1, output, ans);
     }
 ```
+
+>WAY 2
 ```
-//WAY2
 void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<vector<int>>& ans)
 {
     if(idx>=arr.size() || target<=0) {if(target==0) ans.push_back(output); return;}
@@ -172,10 +174,10 @@ SC: O(n) (auxiliary stack space)
 ### 1. Take/Don't take over indices linearly
 ### 2. Which index to take now?
 
-- **Permutations**[https://leetcode.com/problems/permutations/]      
+- **[Permutations]**(https://leetcode.com/problems/permutations/)   
 Given an array nums of distinct integers, return all the possible permutations.
 
-Same as when finding all possible combinations. There were two ways: select which index, and take/not take. The latter one will not work here, as there is no option of not taking here. Proceed by index method. The only change is here the next element should not be after the previous selected index but anywhere. (Hence, ``` for(int i= ~~idx~~ 0; i<arr.size(); i++) ```). Also, we need to keep track of which elements have already been selected so as to not to repeat them. Hence, keep a boolean array.   
+Same as when finding all possible combinations. There were two ways: select which index, and take/not take. The latter one will not work here, as there is no option of not taking here. Proceed by index method. The only change is here the next element should not be after the previous selected index but anywhere. (Hence, ``` for(int i= 0 (NOT idx); i<arr.size(); i++) ```). Also, we need to keep track of which elements have already been selected so as to not to repeat them. Hence, keep a boolean array.   
 
 An optimization over the above method, where we can save space corresponding to that boolean array.   
 Go index-wise, choose the 0th index, then the 1st, then 2nd..... and swap the different indices to that place.... Intelligent, hehe   
@@ -197,7 +199,7 @@ void thisone(vector<vector<int>>& ans, vector<int> nums, int index)
         }
     }
 ```
-TC: O(n!*n) (n*(n-1)*(n-2).... calls being made, and finally for each permutation (there are n!), wehave o(n) for storing in result)
+TC: O(n!*n) (n(n-1)(n-2).... calls being made, and finally for each permutation (there are n!), wehave o(n) for storing in result)
 SC: O(Auxiliary stack space: n) + O(storing the result: n!)   
 
 - **Palindrome Partitioning**   
