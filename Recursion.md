@@ -3,7 +3,7 @@
 
 Still choices are associated with recursion. Why?   
 - The main property of recursion is that it creates separate solution spaces for different calls. Can consider them running independently.   
-  This property primarily helps in cases when there are choices. One separate solution/program running for each choice.It's easy to think in terms of recursion because for each choice we call the function as an independent computation happening.   
+  This property primarily helps in cases when there are choices. One separate solution/program running for each choice. It's easy to think in terms of recursion because for each choice we call the function as an independent computation happening.   
 - Recursion can also be thought of in the form of recurrence relations (choices eventually structure as rec relations too). This is when there are no choices, but still recursion can be applied because of dependencies in input. (n obtains values from n-1)   
 
 Any recursion can be done by iterations also. Moreover, iterations are better. This is because that same property of separate solution spaces, causes a huge time and space complexity while it doesn't in iteration.   
@@ -14,15 +14,15 @@ Still we use Recursion in many cases, atleast in those involving choices. (The p
 Because it is easy to form the solution. For recursion and backtracking, iterative and recursive solutions are equivalent. This is because there's no repetition funda in that case. We have to reach the end.   
 But in cases where there are overlapping subproblems, i will never leave the solution just as recursive. I will memoize it or form an iterative solution. This is where Dynamic Programming jumps in.   
 
-Hence, there are two use Recursion can be solved in two ways:   
-1. Using recurrence relations (the current depends on previous; current obtains previous' value and operates on it) (For this, mostly iterations are preferred directly)  
-2. When there are choices.(Recursion is always the first thought in these cases. Howcver, in case of overlapping subproblems, optimizations of memoization or bottom up approach (iteration) is definitely needed)   
+Hence, Recursion can be solved in two ways:   
+1. Using recurrence relations (the current depends on previous; current obtains previous' value and operates on it) (For this, mostly iterations are preferred directly, we applied recursion on these problems for just practice)  
+2. When there are choices.(Recursion is always the first thought in these cases. Howcver, in case of overlapping subproblems, optimization of memoization or bottom up approach (iteration) is definitely needed)   
 
 ### In short, use Recursion if there are choices. And further, if there are overlapping subproblems do dynamic programming.   
 
-- **Find all the subsequences of an array**   
+- ### **Find all the subsequences of an array**   
 We have choices: take or not take -> recursion   
-```
+```c++
 void subseq(vector<int>& arr, int idx, vector<int> ans)
 {
     if(idx>=arr.size()) {print(ans); return;}
@@ -33,8 +33,8 @@ void subseq(vector<int>& arr, int idx, vector<int> ans)
 }
 ```
 
-- **Find all the subsequences with sum k**   
-```
+- ### **Find all the subsequences with sum k**   
+```c++
 void subseq(vector<int>& arr, int idx, vector<int> ans, int ansSum, int givenSum)
 {
     if(idx>=arr.size() || ansSum>givenSum) {if(ansSum==givenSum) print(ans); return;}
@@ -45,10 +45,10 @@ void subseq(vector<int>& arr, int idx, vector<int> ans, int ansSum, int givenSum
 }
 ```
 
-- **Find any one subsequence with sum k**   
+- ### **Find any one subsequence with sum k**   
 Same as above with little modification.   
 > Whenever required 'any one', use this true-false way  
-```
+```c++
 bool subseq(vector<int>& arr, int idx, vector<int> ans, int ansSum, int givenSum)
 {
     if(idx>=arr.size() || ansSum>givenSum) {if(ansSum==givenSum) {print(ans); return true;} return false;}
@@ -60,10 +60,10 @@ bool subseq(vector<int>& arr, int idx, vector<int> ans, int ansSum, int givenSum
 }
 ```
 
-- **Count of all subsequences with sum k**   
+- ### **Count of all subsequences with sum k**   
 Same as above, just replace the boolean true and false with integer 1 and 0.
 In general:
-```
+```c++
 int findans()
 {
     if(base case) {
@@ -79,7 +79,7 @@ int findans()
 }
 ```
 
-- **Combination Sum**  
+- ### **Combination Sum**  
 Given an array of 'distinct' integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. The same number may be chosen from candidates an unlimited number of times.  
 
 There are two approaches:   
@@ -87,7 +87,7 @@ There are two approaches:
 2. Options are all indices, then next time options are all indices after the previous selected index. (If permutations asked, all indices would have the options every time. Here not so as to avoid repetition (A and then B or B and then A should be the same))
 
 >WAY1 (Take/Not Take)
-``` 
+``` c++
 void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<vector<int>>& ans)
     {
         if(idx>=arr.size() || target<=0) {if(target==0) ans.push_back(output); return; }
@@ -103,7 +103,7 @@ void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<v
     }
 ```
 >WAY2 (Which index to take?)
-```
+```c++
 void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<vector<int>>& ans)
     {
         if(idx>=arr.size() || target==0) { if(target==0) ans.push_back(output); return;}
@@ -120,7 +120,7 @@ void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<v
 TC: O(n^(t/m))   
 SC: O(n)
 
-- **Combination Sum 2**  
+- ### **Combination Sum 2**  
 Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target. Each number in candidates may only be used once in the combination.   
 
 Approach:      
@@ -132,7 +132,7 @@ Sort the array. If you select the element, you can go to next element easily. If
 WAY2 of combination sum:   
 Same logic + one more logic, while choosing which index to take, consider only the starting elements of each group of same elements.
 >WAY 1
-```
+```c++
 void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<vector<int>>& ans)
     {
         if(idx>=arr.size() || target<=0) {if(target==0) ans.push_back(output); return;}
@@ -153,7 +153,7 @@ void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<v
 ```
 
 >WAY 2
-```
+```c++
 void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<vector<int>>& ans)
 {
     if(idx>=arr.size() || target<=0) {if(target==0) ans.push_back(output); return;}
@@ -174,7 +174,7 @@ SC: O(n) (auxiliary stack space)
 ### 1. Take/Don't take over indices linearly
 ### 2. Which index to take now?
 
-- **[Permutations]**(https://leetcode.com/problems/permutations/)   
+- ### **[Permutations](https://leetcode.com/problems/permutations/)** 
 Given an array nums of distinct integers, return all the possible permutations.
 
 Same as when finding all possible combinations. There were two ways: select which index, and take/not take. The latter one will not work here, as there is no option of not taking here. Proceed by index method. The only change is here the next element should not be after the previous selected index but anywhere. (Hence, ``` for(int i= 0 (NOT idx); i<arr.size(); i++) ```). Also, we need to keep track of which elements have already been selected so as to not to repeat them. Hence, keep a boolean array.   
@@ -183,7 +183,7 @@ An optimization over the above method, where we can save space corresponding to 
 Go index-wise, choose the 0th index, then the 1st, then 2nd..... and swap the different indices to that place.... Intelligent, hehe   
 For first call, we choose the 0th index, and there are n options, because each index is swapped with 0th index.   
 Output array is also not needed.
-```
+```c++
 void thisone(vector<vector<int>>& ans, vector<int> nums, int index)
     {
         if(index>=nums.size()) 
@@ -199,13 +199,13 @@ void thisone(vector<vector<int>>& ans, vector<int> nums, int index)
         }
     }
 ```
-TC: O(n!*n) (n(n-1)(n-2).... calls being made, and finally for each permutation (there are n!), wehave o(n) for storing in result)
+TC: O(n!*n) (n(n-1)(n-2).... calls being made, and finally for each permutation (there are n!), wehave o(n) for storing in result)   
 SC: O(Auxiliary stack space: n) + O(storing the result: n!)   
 
-- **Palindrome Partitioning**   
+- ### **Palindrome Partitioning**   
 Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.   
 Again, there are choices, **have partition at which index??**
-```
+```c++
 void findans(string s, int idx, vector<string> output, vector<vector<string>> &ans)
     {
         if(idx==s.size()) {ans.push_back(output); return;}
