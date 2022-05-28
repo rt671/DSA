@@ -373,31 +373,6 @@ Because how will i reach 4, and if i reached 4, then index 5 having 4 again mean
 
 ## **Find the repeating and missing element**   
 
-1. 
-
-## **Merge two sorted arrays without extra space**   
-Given two arrays of size m and n individually sorted, sort both the arrays as a whole.      
-
-**Approach 1:** Using auxiliary array  (Extra space)     
-**Approach 2:** Swapping and using insertion to find sorted position. (O(n*n))   
-**Approach 3:** Having all elements belonging to an array to their respective arrays and sorting them in the end. O(nlogn +mlogm)      
-```c++
-void merge(long long arr1[], long long arr2[], int m, int n) 
-        { 
-            int i=0, j=0, k=m-1;
-    		while(j<n && i<=k)
-    		{
-    			if(arr1[i]<arr2[j]) i++;
-    			else
-    			{
-    				swap(arr2[j], arr1[k--]);
-    				j++;
-    			}
-    		} 
-    		sort(arr1, arr1+m);
-    		sort(arr2, arr2+n);
-        }
-```
 ## **Container with most water**  
 Two pointer approach: i=0, j=n-1;  
 calculate the area, max it and move the pointer which has smaller height.  
@@ -410,3 +385,13 @@ Why this works?
                         -> larger (that's good, chance of improvement)  
                         -> smaller (no benefit, previous one would be better)  
                         -> equal (oof, no benefit)
+
+## **Trapping Rainwater Problem**   
+
+1. Find the rightmax and leftmax of all elements in respective arrays beforehand   
+2. Find the global maximum, the left ones require only the left max, and the right ones require the right max    
+3. The one with the smaller height decides the level of water. Hence, take two pointers, left and right. If left is smaller, leftmax-current is the amount of water, and do left++ (similar to container with most water). Similarly for right max.   
+
+## **Maximum Consecutive Ones with atmost K flips**   
+
+Longest subarray with atmost k zeroes.   
