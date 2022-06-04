@@ -1,11 +1,141 @@
 # Trees
 
 ### Iterative Traversals
-- **Preorder:** Just use a stack instead of queue and same as a bfs  
 - **Inorder:**  
+```c++
+ vector<int> inorderTraversal(TreeNode* root) {
+        
+        vector<int> ans;
+        stack<TreeNode*> st;
+        while(root || !st.empty())
+        {    
+            while(root)
+            {
+                st.push(root);
+                root=root->left;
+            }
+            TreeNode* temp = st.top();
+            st.pop();
+            ans.push_back(temp->val);
+            root=temp->right;
+        }
+        return ans;
+    }
+```
+Another way is using morris traversal, which uses the property that the current element will after its inorder predecessor, hence can be formed as the right child of it.   
+For every node, make it the right child of its inorder predecessor (the rightmost child in the left subtree) and hence it gets temporarily rid of the left child, gradually converting into a skewed inorder tree.    
+
+Step 1: Initialize current as root   
+Step 2: While current is not NULL,   
+If current does not have left child      
+    a. Add current’s value   
+    b. Go to the right, i.e., current = current.right   
+Else   
+    a. In current's left subtree, make current the right child of the rightmost node   
+    b. Go to this left child, i.e., current = current.left   
+![morris picture](https://user-images.githubusercontent.com/82562103/171409709-c64b6f4a-1f4d-4269-b285-15c60c1cc960.PNG)
+
+```c++
+   vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> nodes;
+        while (root) {
+            if (root -> left) {
+                TreeNode* pre = root -> left;
+                while (pre -> right && pre -> right != root) {
+                    pre = pre -> right;
+                }
+                if (!pre -> right) {
+                    pre -> right = root;
+                    root = root -> left;
+                } else {
+                    pre -> right = NULL;
+                    nodes.push_back(root -> val);
+                    root = root -> right;
+                }
+            } else {
+                nodes.push_back(root -> val);
+                root = root -> right;
+            }
+        }
+        return nodes;
+    }
+```
+- **Preorder:**   
+```c++
+vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        stack<TreeNode*> st;
+        while(root || !st.empty())
+        {
+            while(root)
+            {
+                ans.push_back(root->val);
+                st.push(root);
+                root=root->left;
+            }
+            TreeNode* temp = st.top();
+            st.pop();
+            root = temp->right;
+        }
+        return ans;
+    }
+```
+
 - **Postorder:**
 
-### Height
+## Leftview   
+1. Do level order traversal and print the first node in each level.   
+2. Can use recursion as well, whenever the level is more than max so far for the first time, print it.   
+
+## Bottomview   
+1. Doing a level order traversal and save ranks in a map (rank-1 for left and rank+1 for right) is the best way.   
+2. Recursion can also help: Preorder traversal. But we also need to take care of height/depth, because a later node may update the value of the rank key but it wasn't the lowest. (Do height +1 as well rank+-1, update map only when height is max)
+
+## Topview   
+1. Same as bottom view, just update the map the first time only, when key is not present    
+2. Same as bottom view, ...............................   
+
+## Vertical Order Traversal   
+
+Do level order traversal and take a map of rank and corresponding list of nodes. There can be multiple nodes at same position, they should be in sorted order. For this we may use a set or heap, but we also want node which came first to remain first even if its value is more. Hence, use a set or minheap of {height, value}. So that first height is considered, if its the same then the value is considered.   
+```c++
+typedef pair<int,int> pp;
+
+vector<vector<int>> verticalTraversal(TreeNode* root) {
+    if(root==NULL) return {};
+    
+    vector<vector<int>> ans;
+    queue<pair<TreeNode*, pair<int,int>>> q;
+    q.push({root,{0,0}});
+    map<int, priority_queue<pp, vector<pp>, greater<pp>>> mp;
+    
+    int buffer;
+    while(!q.empty())
+    {
+        int n = q.size();
+        for(int i=0; i<n; i++)
+        {
+            TreeNode* p = q.front().first;
+            int rank = q.front().second.first;
+            int height = q.front().second.second;
+            q.pop();
+            
+            mp[rank].push({height, p->val});
+            if(p->left) q.push({p->left, {rank-1, height+1}});
+            if(p->right)  q.push({p->right, {rank+1, height+1}});
+        } 
+    }
+    for(auto it: mp) 
+    {
+        vector<int> temp;
+        while(!it.second.empty()) {temp.push_back(it.second.top().second); it.second.pop();}
+        ans.push_back(temp);
+    }
+    return ans;
+}
+```
+
+## Height
 - **Maximum depth of a tree (HEIGHT):**  
 max(lh, rh)+1;
 
@@ -126,3 +256,4 @@ TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         else return root;
     }
 ```
+

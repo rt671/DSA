@@ -123,7 +123,7 @@ Sort the array. If you select the element, you can go to next element easily. If
 2. This can also be thought of in terms of counts. Create a table with distinct values and their counts. Now, instead of having unlimited choices, you have that occurence number of choices for each element. You can run a for loop and recurse for every count starting from 0. 
 
 WAY2 of combination sum:   
-Same logic + one more logic, while choosing which index to take, consider only the starting elements of each group of same elements.
+Same logic + one more logic, while choosing which index to take, consider only the starting elements of each group of same elements.   
 >WAY 1
 ```c++
 void findans(vector<int>& arr, int target, int idx, vector<int> output, vector<vector<int>>& ans)
@@ -179,11 +179,7 @@ Output array is also not needed.
 ```c++
 void thisone(vector<vector<int>>& ans, vector<int> nums, int index)
     {
-        if(index>=nums.size()) 
-        {
-            ans.push_back(nums);
-            return;
-        }
+        if(index>=nums.size()) {  ans.push_back(nums);   return; }
         for(int i=index; i<nums.size(); i++)
         {
             swap(nums[index], nums[i]);
@@ -194,6 +190,32 @@ void thisone(vector<vector<int>>& ans, vector<int> nums, int index)
 ```
 TC: O(n!*n) (n(n-1)(n-2).... calls being made, and finally for each permutation (there are n!), wehave o(n) for storing in result)   
 SC: O(Auxiliary stack space: n) + O(storing the result: n!)   
+
+
+## Permutation 2
+
+```c++
+void permute(vector<int>& arr, vector<int>& psf, vector<vector<int>>& res, unordered_map<int,int>& freq)
+    {
+        if(psf.size() == arr.size())
+        {
+            res.push_back(psf);
+            return;
+        }
+        
+        for(int i=0; i<arr.size(); i++)
+        {
+            if((i==0 || arr[i]!=arr[i-1]) && freq[arr[i]])  // brackets important
+            {
+                freq[arr[i]]--;
+                psf.push_back(arr[i]);
+                permute(arr, psf, res, freq);
+                psf.pop_back();
+                freq[arr[i]]++;
+            }
+        }
+    }
+```
 
 - ### **Palindrome Partitioning**   
 Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.   
@@ -217,3 +239,5 @@ void findans(string s, int idx, vector<string> output, vector<vector<string>> &a
 Dp can be applied so as to not check if a substring is a palindrome, again and again.   
 TC: O((2^n) *n)   
 SC: O(n)
+
+## Permutation with duplicate elements   

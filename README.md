@@ -1,6 +1,5 @@
 # DSA
 - Arrays
-- Sorting
 - Binary Search
 - Recursion
 - Dynamic Programming
