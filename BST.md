@@ -53,26 +53,81 @@ TreeNode* inordersucc(TreeNode* root)
 
 - **Kth smallest element in a BST**  
 The inorder traversal gives the sorted order, store the inorder in an array and return arr[k-1]; Or stop the inorder traversal at reaching kth node. This can done both in recursion or iteration. In iteration it is easier.  
-```
+```c++
 while (true) {
       while (root != null) {
         stack.push(root);
         root = root.left;
       }
-      root = stack.pop();
+      root = stack.top();
+      stack.pop();
       if (--k == 0) return root.val;
       root = root.right;
     }
-  }
+
+    
 ```
 > Time Complexity: O(h+k); (h to reach down the leaf first (root->left))  
 > Space Complexity: O(h)
 
-- **Validate a BST** (Check if a BT is a BST)  
-I applied recursion. (1. if null or leaf, return true;  2. if any child false, return false;    3. compare current node value with inorder successor and predecessor)
+- **Populating next right pointers in a tree**   
+Given a perfect binary tree where all leaves are on the same level, and every parent has two children. The binary tree has the following definition:
 
-Better way, check if inorder is sorted (if next element is greater than previous, for every node traversed)
+```c++
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
 ```
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.   
+
+1. Use Level Order Traversal   
+2. Use the property that it is a perfect binary tree.   
+```c++
+    Node* temp = root;
+    while(temp->left)
+    {
+        Node* curr = temp;
+        while(curr)
+        {
+            curr->left->next = curr->right;
+            if(curr->next) curr->right->next = curr->next->left;
+            curr = curr->next;
+        }
+        temp=temp->left;
+    }
+```
+- **Convert Sorted Array to Height Balanced Binary Search Tree**    
+
+```c++
+TreeNode* findans(vector<int>& nums, int low, int high)
+    {
+        if(low>high) return NULL;
+        int mid = low +(high-low)/2;
+        TreeNode* root = new TreeNode(nums[mid]);
+        root->left = findans(nums, low, mid-1);
+        root->right = findans(nums, mid+1, high);
+        return root;
+    }
+```
+
+
+- **Validate a BST** (Check if a BT is a BST)   
+
+1. Considered lower bounds and upper bounds
+```c++
+ bool findans(TreeNode* root, long long lb, long long ub)
+    {
+        if(root==NULL) return true;
+        if(root->val>ub || root->val<lb) return false;
+        return findans(root->left, lb, (long long)root->val-1) && findans(root->right, (long long)root->val+1, ub);
+    }
+```
+
+2. Better way, check if inorder is sorted (if next element is greater than previous, for every node traversed)
+```c++
  bool isValidBST(TreeNode* root) {
         TreeNode* prev = NULL;
         stack<TreeNode*> st;
@@ -151,7 +206,7 @@ Approach 2: Do iterative inorder traversal, just move it's different segments in
     }
 ```
 - **Trim BST**  
-Trim BST so that all its elements lies in [low, high]  
+Trim BST so that all its elements lie in [low, high]  
 ```
 TreeNode* deleteit(TreeNode* root, int low, int high)
     {
@@ -166,8 +221,73 @@ TreeNode* deleteit(TreeNode* root, int low, int high)
         return root;
     }
 ```
+
 - **Two sum in BST**    
 
+1. For every element, do a binary search in the bst (O(nlogn), O(1))   
+2. Use a set, do a search and check for k-node->val for each node. (O(n), O(n))   
+3. Find the inorder, store in an array and do two sum (O(n), O(n))
+4. Use BST iterators and do two sum directly on the BST hence. (O(n), O(h))
+```c++
+class BSTiterator{
+private:
+    stack<TreeNode*> st;
+    TreeNode* temp;
+    bool reverse;
+public:   
+    BSTiterator(TreeNode* root, bool val)
+    {
+        temp = root;
+        reverse = val;
+    }
+    
+    int next()
+    {
+        while(temp){st.push(temp); if(!reverse)temp = temp->left; else temp=temp->right;}
+        TreeNode* a = st.top();
+        st.pop();
+        if(!reverse) temp = a->right; else temp=a->left;
+        return a->val;
+    } 
+    
+};
+
+class Solution {
+public:
+    bool findTarget(TreeNode* root, int k) {
+        BSTiterator low(root, 0);
+        BSTiterator high(root, 1);
+        
+        int i=low.next(), j=high.next();
+        while(i<j)
+        {
+            if(i+j > k) j = high.next();
+            else if(i+j <k) i = low.next();
+            else return true;
+        }
+        return false;
+    }
+};
+```
 - **Recover BST**  
+The values of exactly two nodes of the tree were swapped by mistake. Recover the tree without changing its structure.    
+
+1. Store inorder and find two elements where arr[i-1]>arr[i]; OR using the inorder, reassign all the values of the tree     
+2. Do the same step, just don't store, do on the way   
+>This function finds the two elements to be swapped.   
+```c++
+void inorder(TreeNode* root)
+    {
+        if(root==NULL) return;
+        inorder(root->left);
+        if(prev->val > root->val)
+        {
+            if(flag==0) {firstele = prev; flag=1; secondele =root;}
+            else { secondele = root;}
+        }
+        prev = root;
+        inorder(root->right);
+    }
+```   
 - **Largest BST in BT**   
 
